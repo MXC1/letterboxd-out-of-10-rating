@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Letterboxd Score Formatter",
+  "version": "1.0",
+  "description": "Adds /10 to scores on Letterboxd.",
+  "content_scripts": [
+    {
+      "matches": ["https://letterboxd.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["scripting"]
+}
