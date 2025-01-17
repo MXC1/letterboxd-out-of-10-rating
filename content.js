@@ -26,29 +26,34 @@ function addScoreSuffix() {
       const sizeClass = ratingElement.className.match(/-tiny|-green|-large|-nano|-micro/);
       if (sizeClass) {
         suffixSpan.className = sizeClass[0];
-        if (sizeClass[0] === '-nano') {
-          suffixSpan.style.fontSize = "10px";
-          suffixSpan.style.lineHeight = "20px";
-          suffixSpan.style.verticalAlign = "middle";
-          suffixSpan.style.textAlign = "center";
-          suffixSpan.style.display = "block";
-        } else if (sizeClass[0] === '-green') {
-          suffixSpan.style.marginLeft = "-4px";
-          suffixSpan.style.marginRight = "4px";
-        } else if (sizeClass[0] === '-micro') {
-          suffixSpan.style.lineHeight = "7px"
+            switch (sizeClass[0]) {
+                case '-nano':
+                    Object.assign(suffixSpan.style, {
+                        fontSize: "10px",
+                        lineHeight: "20px",
+                        verticalAlign: "middle",
+                        textAlign: "center",
+                        display: "block"
+                    });
+                    break;
+                case '-green':
+                    Object.assign(suffixSpan.style, {
+                        marginLeft: "-4px",
+                        marginRight: "4px"
+                    });
+                    break;
+                case '-micro':
+                    suffixSpan.style.lineHeight = "7px";
+                    break;
         }
       } else {
-        suffixSpan.style.fontSize = "11px"
+            suffixSpan.style.fontSize = "11px";
       }
 
-      // Insert the suffix span based on the rating size class
       if (['rating-large', '-nano', '-tiny', '-green'].some(cls => ratingElement.className.includes(cls))) {
         ratingElement.insertAdjacentElement('afterend', suffixSpan);
       } else {
-        // Create a <br> element
-        const brElement = document.createElement('br');
-        ratingElement.parentElement.appendChild(brElement);
+            ratingElement.parentElement.appendChild(document.createElement('br'));
         ratingElement.parentElement.appendChild(suffixSpan);
       }
     });
