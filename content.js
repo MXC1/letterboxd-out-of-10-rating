@@ -23,7 +23,7 @@ function addScoreSuffix() {
       suffixSpan.setAttribute('data-rating', ratingValue);
       
       // Match the rating size class
-      const sizeClass = ratingElement.className.match(/-tiny|-green|-large|-nano/);
+      const sizeClass = ratingElement.className.match(/-tiny|-green|-large|-nano|-micro/);
       if (sizeClass) {
         suffixSpan.className = sizeClass[0];
         if (sizeClass[0] === '-nano') {
@@ -32,11 +32,14 @@ function addScoreSuffix() {
           suffixSpan.style.verticalAlign = "middle";
           suffixSpan.style.textAlign = "center";
           suffixSpan.style.display = "block";
-        }
-        if (sizeClass[0] === '-green') {
+        } else if (sizeClass[0] === '-green') {
           suffixSpan.style.marginLeft = "-4px";
           suffixSpan.style.marginRight = "4px";
+        } else if (sizeClass[0] === '-micro') {
+          suffixSpan.style.lineHeight = "7px"
         }
+      } else {
+        suffixSpan.style.fontSize = "11px"
       }
 
       // Insert the suffix span based on the rating size class
