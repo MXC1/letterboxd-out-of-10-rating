@@ -86,7 +86,12 @@ function addRateitScoreSuffix() {
         suffixSpan.style.fontSize = "11px";
         suffixSpan.setAttribute('data-rating', ratingValue);
 
-        rangeElement.appendChild(suffixSpan);
+        // Add the suffixSpan and a <br> tag to the rateit-selected element
+        const selectedElement = rangeElement.querySelector('.rateit-selected');
+        if (selectedElement) {
+            selectedElement.appendChild(document.createElement('br'));
+            selectedElement.appendChild(suffixSpan);
+        }
     });
 }
 
