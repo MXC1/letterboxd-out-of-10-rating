@@ -67,7 +67,7 @@ function addScoreSuffix() {
 
 // Function to modify rateit elements
 function addRateitScoreSuffix() {
-    const rateitElements = document.querySelectorAll('div[class~="rateit"]');
+    const rateitElements = document.querySelectorAll('div[class~="rateit"]:not(.panel-rateit)');
 
     rateitElements.forEach(rateitElement => {
         const rangeElement = rateitElement.querySelector('.rateit-range');
@@ -77,7 +77,7 @@ function addRateitScoreSuffix() {
         if (!ratingValue || ratingValue == 0) return;
 
         // Avoid adding duplicate score suffix
-        if (rangeElement.querySelector(`span[data-rating="${ratingValue}"]`)) return;
+        if (rangeElement.querySelector('span[data-rating]')) return;
 
         // Create a new span for the /10 suffix
         const suffixSpan = document.createElement('span');
@@ -95,15 +95,43 @@ function addRateitScoreSuffix() {
     });
 }
 
+// Updated function to handle panelRateitElements
+function handlePanelRateitElements() {
+    const panelRateitElements = document.querySelectorAll('div.rateit.panel-rateit.instant-rating');
+    panelRateitElements.forEach(panelRateitElement => {
+        const rangeElement = panelRateitElement.querySelector('.rateit-range');
+        if (!rangeElement) return;
+
+        const ratingValue = rangeElement.getAttribute('aria-valuenow');
+        if (!ratingValue || ratingValue == 0) return;
+
+        // Check if a span already exists, ignoring the rating value
+        const existingSpan = panelRateitElement.querySelector('span[data-rating]');
+        if (existingSpan) {
+            existingSpan.textContent = ` (${ratingValue}/10)`;
+            existingSpan.setAttribute('data-rating', ratingValue);
+            return;
+        }
+
+        const panelSuffixSpan = document.createElement('span');
+        panelSuffixSpan.textContent = ` (${ratingValue}/10)`;
+        panelSuffixSpan.setAttribute('data-rating', ratingValue);
+        panelRateitElement.appendChild(document.createElement('br'));
+        panelRateitElement.appendChild(panelSuffixSpan);
+    });
+}
+
 // Run the functions when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
     addScoreSuffix();
     addRateitScoreSuffix();
+    handlePanelRateitElements();
 });
 
 // Run the functions on subsequent page updates (for SPAs)
 const observer = new MutationObserver(() => {
     addScoreSuffix();
     addRateitScoreSuffix();
+    handlePanelRateitElements();
 });
 observer.observe(document.body, { childList: true, subtree: true });
