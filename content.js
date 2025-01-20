@@ -77,7 +77,17 @@ function addRateitScoreSuffix() {
         if (!ratingValue || ratingValue == 0) return;
 
         // Avoid adding duplicate score suffix
-        if (rangeElement.querySelector('span[data-rating]')) return;
+        // if (rangeElement.querySelector('span[data-rating]')) return;
+
+        const existingSpan = rangeElement.querySelector('span[data-rating]');
+
+        if (existingSpan) {
+            if (existingSpan.textContent.includes(`(${ratingValue}/10)`)) return;
+
+            existingSpan.textContent = ` (${ratingValue}/10)`;
+            existingSpan.setAttribute('data-rating', ratingValue);
+            return;
+        }
 
         // Create a new span for the /10 suffix
         const suffixSpan = document.createElement('span');
