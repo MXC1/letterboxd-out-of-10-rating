@@ -57,6 +57,12 @@ function addScoreSuffix() {
         ratingElement.parentElement.appendChild(suffixSpan);
       }
     });
+
+    // Select the parent ul element with id "liked-reviews"
+    const likedReviews = document.getElementById('liked-reviews');
+    if (likedReviews) {
+        likedReviews.style.height = '100%';
+    }
   }
   
   // Run the function when the DOM is loaded
