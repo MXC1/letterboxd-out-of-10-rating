@@ -74,7 +74,7 @@ function addRateitScoreSuffix() {
         if (!rangeElement) return;
 
         const ratingValue = rangeElement.getAttribute('aria-valuenow');
-        if (!ratingValue) return;
+        if (!ratingValue || ratingValue == 0) return;
 
         // Avoid adding duplicate score suffix
         if (rangeElement.querySelector(`span[data-rating="${ratingValue}"]`)) return;
